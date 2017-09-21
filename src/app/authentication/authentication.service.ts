@@ -45,26 +45,24 @@ export class AuthenticationService {
         FB.getLoginStatus(function (response) {
             if (response.status === "connected") {
                 //get the email of the user from facebook
-                FB.api('/me', 'get', {fields: "email"}, function (resp) {
+                FB.api('/me', 'get', {fields: "email,first_name,last_name,id,cover,link,verified,short_name"}, function (resp) {
                     const user = new User(resp.email, 'FB', '', '', '', response.authResponse.userID);
-                    console.log(user);
+                    console.log(resp);
                     return user;
                 });
             } else {
                 //if the user isnt connected a pop up window appears and asks for authentication
                 FB.login(function (response) {
                         if (response.status === "connected") {
-                            const userID = response.userID;
-                            const newuserID = '/'.concat(userID);
                             //then the same happens and we produce the user model which will be sent to the database
-                            FB.api('/me', function (resp) {
-                                const user = new User(resp.email, 'FB', '', resp.first_name, resp.last_name, response.authResponse.userID);
+                            FB.api('/me', 'get', {fields: "email,first_name,last_name,id,cover,link,verified,short_name"}, function (resp) {
+                                const user = new User(resp.email, 'FB', '', '', '', response.authResponse.userID);
                                 console.log(resp);
                                 return user;
                             });
                         }
                     }, //these are the permissions we are asking the user to give us
-                    {scope: 'public_profile,user_friends,email,pages_show_list', return_scopes: true});
+                    {scope: 'public_profile,user_friends,email,pages_show_list,user_photos', return_scopes: true});
             }
         });
     }
