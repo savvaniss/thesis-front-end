@@ -1,0 +1,81 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3 col-xs-6 col-xs-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>Sign In component works</p>
+                    <p>
+                        Sign-in or <a [routerLink]="['/sign-up']"> sign-up</a>
+                    </p>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary col-md-10 col-sm-10 col-xs-10  col-md-offset-1 col-sm-offset-1 col-xs-offset-1"
+                                    (click)="onFBLogin()">Facebook</button>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-danger col-md-10 col-sm-10 col-xs-10  col-md-offset-1 col-sm-offset-1 col-xs-offset-1"
+                                    (click)="onGGLLogin()">Google</button>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-danger col-md-10 col-sm-10 col-xs-10  col-md-offset-1 col-sm-offset-1 col-xs-offset-1"
+                                    (click)="onTTRLogin()">Twitter</button>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-5">
+                            <hr>
+                        </div>
+                        <div class="col-md-2">
+
+                        </div>
+                        <div class="col-md-5">
+                            <hr>
+                        </div>
+                    </div>
+                    <br />
+
+
+                    <form (ngSubmit)="onSignIn(f)"
+                            #f="ngForm"
+                            method="post"
+                            [formGroup]="signInForm" >
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <input type="email"
+                                           class="form-control"
+                                           placeholder="Username"
+                                           formControlName="username">
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <input type="password"
+                                           class="form-control"
+                                           placeholder="Password"
+                                           formControlName="password">
+                                </div>
+                            </div>
+                            <hr>
+                            <button class="btn btn-success col-md-8 col-md-offset-2" type="submit" [disabled]="!signInForm.valid">Sign In!</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
