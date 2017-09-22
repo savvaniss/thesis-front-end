@@ -32,14 +32,16 @@ export class SignInComponent implements OnInit{
 
     }
     onSignIn(form) {
-/*
-        const user = new User(form.value.username,'',form.value.password);
-*/
+        const callsUrl: string = 'https://api-storage.herokuapp.com/api/user';
+
+        /*
+                const user = new User(form.value.username,'',form.value.password);
+        */
 /*
         const user = new User(form.value.username,'',form.value.password);
 */
         const user = new User(form.value.username,form.value.password);
-        this.authService.signIn(user)
+        this.authService.signIn(user,callsUrl)
             .subscribe(
               data => {
                   console.log(data);
@@ -56,8 +58,8 @@ export class SignInComponent implements OnInit{
     }
 
     onFBLogin() {
-        const user = this.authService.FBSignIn();
-        console.log(user);
+        const data = this.authService.FBSignIn();
+        console.log(data);
     }
 
 }
