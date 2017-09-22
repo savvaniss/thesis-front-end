@@ -1,7 +1,10 @@
 import {Component, OnInit } from '@angular/core';
 import {NgForm, FormGroup, FormControl, Validators} from "@angular/forms";
+
 import { User } from "../../models/user.model"
 import {AuthenticationService} from "../authentication.service";
+import {Router} from "@angular/router";
+
 @Component({
     selector: 'app-sign-up',
     templateUrl: './sign-up.component.html',
@@ -9,17 +12,8 @@ import {AuthenticationService} from "../authentication.service";
 })
 export class SignUpComponent implements OnInit {
     signUpForm: FormGroup;
-    constructor(private authService: AuthenticationService) {
-    //First we have to call fb.init() in order to make further calls to the facebook api
-        // the appId is necessary for facebook to accept the init.
-        console.log('Initializing Facebook');
-/*
-        fb.init({
-            appId: 'We need an appId',
-            version: 'v2.10'
-        });
-*/
-
+    constructor(private authService: AuthenticationService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -36,6 +30,8 @@ export class SignUpComponent implements OnInit {
     }
     //onSubmit gives us the user info when he submits.
     onSignUp(form: NgForm) {
+        const callsUrl: string = 'https://api-storage.herokuapp.com/api/user';
+
         const user = new User(form.form.value.username,
                             form.form.value.password,
                             form.form.value.email,
@@ -43,17 +39,25 @@ export class SignUpComponent implements OnInit {
                             form.form.value.firstname,
                             form.form.value.lastname
         );
-        this.authService.signUp(user).subscribe(
-            data => console.log(data),
-            error => console.log(error)
+        this.authService.signUp(user,callsUrl).subscribe(data => {
+                console.log(data);
+                //here i save the token and the userId returned from the server
+                //to the local browser memory. This memory lasts for 2 hours
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('userId', data.userId);
+                this.router.navigateByUrl('/sign-in');
+            },
+            error => {
+                console.error(error)
+            }
         );
-        console.log(user);
         //this.signUpForm.reset();
     }
 
     //onFBLogin attempts to log the user in facebook via the app. It should return some basic information for the user
     onFBLogin() {
-        const user = this.authService.FBSignIn();
+        const data = this.authService.FBSignIn();
+        console.log(data);
     }
 
     //catches the errors
