@@ -4,6 +4,8 @@ import {Observable} from "rxjs/Observable";
 import 'rxjs/Rx'
 
 import {User} from "../models/user.model";
+import {FBuser} from "../models/FBuser.model";
+import {CoverObject} from "../models/cover.object";
 import {error} from "util";
 
 declare const FB: any;
@@ -15,21 +17,24 @@ export class AuthenticationService {
     constructor(private http: Http) {
     }
 
-    signUp(user: User) {
+    public signUp(user, link: string) {
         const body = JSON.stringify(user);
         console.log(body);
+/*
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post(this.callsUrl, body)
+*/
+        return this.http.post(link, body)
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }
 
-    signIn(user: User) {
+    public signIn(user: User, link: string) {
         //producing the string of the call of the sign in
-        const signInCallURL = this.callsUrl.concat('/',user.username, '/', user.password);
-        console.log(user);
+        const signInCallURL = link.concat('/', user.username, '/', user.password);
+        /*
         const body = JSON.stringify(user);
         const headers = new Headers({'Content-Type': 'application/json'});
+        */
         return this.http.get(signInCallURL)
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
