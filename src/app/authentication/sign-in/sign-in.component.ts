@@ -58,8 +58,13 @@ export class SignInComponent implements OnInit{
     }
 
     onFBLogin() {
-        const data = this.authService.FBSignIn();
-        console.log(data);
+        this.authService.FBSignIn()
+            .subscribe(data=>{
+                console.log(data);
+            },
+                error=>{
+                console.error(error);
+                });
     }
 
 }
