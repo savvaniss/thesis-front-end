@@ -1,10 +1,14 @@
+import {CoverObject} from "./cover.object";
+
 export class FBuser {
-    constructor( public username: string,
-                 public password?: string,
-                 public email?: string,
-                 public loginType?: string,
+    constructor( public email?: string,
                  public firstname?: string,
                  public lastname?: string,
-                 public userID?: string
+                 public shortname?: string,
+                 public link?: string,
+                 public verified?: boolean,
+                 public puid?: string,
+                 public loginType?: string,
+                 public cover?: CoverObject
     ) {}
 }
