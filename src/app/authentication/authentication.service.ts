@@ -18,17 +18,18 @@ export class AuthenticationService {
     }
 
     public signUp(user, link: string) {
-        /*const headers = new Headers({'Content-Type': 'application/json'});*/
+        const headers = new Headers({'Content-Type': 'application/json'});
         const body = JSON.stringify(user);
+        console.log(body);
 
         return this.http.post(link, body)
-            .map((response: Response) => {
-                response.json();
-            })
+            .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }
 
-    public signIn(user: User, link: string) {
+    public signIn(user, link: string) {
+        const headers = new Headers({'Content-Type': 'application/json'});
+
         //producing the string of the call of the sign in
         const signInCallURL = link.concat('/', user.username, '/', user.password);
         return this.http.get(signInCallURL)

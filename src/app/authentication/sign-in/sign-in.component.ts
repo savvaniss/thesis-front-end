@@ -35,13 +35,6 @@ export class SignInComponent implements OnInit {
 
     onSignIn(form) {
         const callsUrl: string = 'https://api-storage.herokuapp.com/api/user';
-
-        /*
-                const user = new User(form.value.username,'',form.value.password);
-        */
-        /*
-                const user = new User(form.value.username,'',form.value.password);
-        */
         const user = new User(form.value.username, form.value.password);
         this.authService.signIn(user, callsUrl)
             .subscribe(
@@ -67,8 +60,8 @@ export class SignInComponent implements OnInit {
             //this is the callback function i send to the service to be called after producing the FBuser
             //It would be better to develop it with promises. Thoough i dont understand them so well
             instance.authService.signUp(response, callsFBUrl)
-                .subscribe(response=>console.log(response)/*data => console.log(data)
-                    , error => console.error(error)*/);
+                .subscribe(data => console.log(data)
+                    , error => console.error(error));
         });
 
     }
