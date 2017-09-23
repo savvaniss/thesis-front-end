@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
 declare const FB: any;
 
 @Component({
@@ -6,16 +7,16 @@ declare const FB: any;
     templateUrl: './app.component.html'
 })
 export class AppComponent {
-    constructor(){
-
+    constructor() {
         //fb.init should start right away. The appId and the version aren't optional
-        FB.init({appId      : '752997224907283',
-                cookie     : true,
-                xfbml      : true,
-                version    : 'v2.10'
+        FB.init({
+                appId: '752997224907283',
+                cookie: true,
+                xfbml: true,
+                version: 'v2.10'
             }
         );
         console.log("Facebook initiated");
     }
-    
+
 }
