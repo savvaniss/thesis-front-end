@@ -45,8 +45,11 @@ export class AuthenticationService {
         FB.getLoginStatus(function (response) {
             //----------------->SIGN IN
             if (response.status === "connected") {
+                console.log(response);
+                localStorage.setItem('accessToken' ,response.authResponse.accessToken);
                 //get the data of the user
-                FB.api('/me', 'get', {fields: "email,first_name,last_name,short_name,id,cover,link,verified"},
+                console.log('LOGGING IN');
+                FB.api('/me', 'get', {fields: "email,first_name,last_name,short_name,id,link,verified"},
                     function (resp) {
                         fbuser = new FBuser(resp.email,
                             resp.first_name,
@@ -56,9 +59,11 @@ export class AuthenticationService {
                             resp.verified,
                             resp.id,
                             'facebook',
-                            new CoverObject(resp.cover.id, resp.cover.offset_x, resp.cover.offset_y, resp.cover.source));
-                        console.log('LOGGING IN');
-                        onResponse(fbuser);
+                            new CoverObject(null,null,null,null));
+                        FB.api('/me/picture',function (response) {
+                           fbuser.cover.source = response.data.url;
+                           onResponse(fbuser);
+                        });
                     });
             } else {
                 //--------------->SIGN UP
