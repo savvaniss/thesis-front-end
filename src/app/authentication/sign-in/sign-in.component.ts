@@ -60,14 +60,15 @@ export class SignInComponent implements OnInit {
             //this is the callback function i send to the service to be called after producing the FBuser
             //It would be better to develop it with promises. Thoough i dont understand them so well
             instance.authService.signUp(response, callsFBUrl)
-                .subscribe(data => {
+                .subscribe(
+                    data => {
                         console.log(data);
                         localStorage.setItem('token', data.token);
                         localStorage.setItem('id', data.id);
                         localStorage.setItem('loginType', 'facebook');
-                        this.router.navigateByUrl('/user-profile');
-                    }
-                    , error => console.error(error));
+                        instance.router.navigateByUrl('user-profile');
+                    },
+                    error => console.error(error));
         });
     }
 
