@@ -3,8 +3,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../authentication.service"
 import {User} from "../../models/user.model";
-import {FBuser} from "../../models/FBuser.model";
-
 
 @Component({
     selector: 'app-sign-in',
@@ -17,6 +15,7 @@ export class SignInComponent implements OnInit {
     constructor(private authService: AuthenticationService,
                 private router: Router) {
         //checking the status of the user. If he is logged in continue
+        authService.checkUserLoginStatus('user-profile');
     }
 
     ngOnInit() {

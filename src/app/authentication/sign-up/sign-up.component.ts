@@ -15,6 +15,7 @@ export class SignUpComponent implements OnInit {
 
     constructor(private authService: AuthenticationService,
                 private router: Router) {
+        authService.checkUserLoginStatus('user-profile');
     }
 
     ngOnInit() {
@@ -47,7 +48,7 @@ export class SignUpComponent implements OnInit {
                 //here i save the token and the userId returned from the server
                 //to the local browser memory. This memory lasts for 2 hours
                 localStorage.setItem('token', data.token);
-                localStorage.setItem('userId', data.userId);
+                localStorage.setItem('id', data.id);
                 this.router.navigateByUrl('/sign-in');
             },
             error => {
