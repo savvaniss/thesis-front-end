@@ -9,6 +9,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {routing} from "./app.routing";
 import {HttpModule} from "@angular/http";
 import {AuthenticationService} from "./authentication/authentication.service";
+import {ProfileComponent} from "./authentication/profile/profile.component";
 
 @NgModule({
     declarations: [
@@ -16,6 +17,8 @@ import {AuthenticationService} from "./authentication/authentication.service";
         AuthenticationComponent,
         SignInComponent,
         SignUpComponent,
+        ProfileComponent,
+
     ],
     imports: [
         BrowserModule,
