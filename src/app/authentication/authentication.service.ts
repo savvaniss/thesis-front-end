@@ -6,7 +6,7 @@ import 'rxjs/Rx'
 import {User} from "../models/user.model";
 import {FBuser} from "../models/FBuser.model";
 import {CoverObject} from "../models/cover.object";
-import {error} from "util";
+import {Router} from "@angular/router";
 
 declare const FB: any;
 
@@ -14,7 +14,8 @@ declare const FB: any;
 export class AuthenticationService {
     callsUrl: string = 'https://api-storage.herokuapp.com/api/user';
 
-    constructor(private http: Http) {
+    constructor(private http: Http,
+                private router: Router) {
     }
 
     public signUp(user, link: string) {
@@ -93,6 +94,16 @@ export class AuthenticationService {
             }
         });
 
+    }
+
+    checkUserLoginStatus(path: string) {
+        if (localStorage.getItem('token')) {
+            if(path){
+                this.router.navigateByUrl(path);
+            }
+        } else {
+            this.router.navigateByUrl('sign-in');
+        }
     }
 
 }
