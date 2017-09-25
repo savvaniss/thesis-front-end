@@ -15,7 +15,7 @@ export class SignUpComponent implements OnInit {
 
     constructor(private authService: AuthenticationService,
                 private router: Router) {
-        authService.checkUserLoginStatus('user-profile');
+        authService.checkUserToken('user-profile');
     }
 
     ngOnInit() {

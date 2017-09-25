@@ -96,7 +96,7 @@ export class AuthenticationService {
 
     }
 
-    checkUserLoginStatus(path: string) {
+    checkUserToken(path: string) {
         if (localStorage.getItem('token')) {
             if(path){
                 this.router.navigateByUrl(path);

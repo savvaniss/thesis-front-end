@@ -15,7 +15,7 @@ export class SignInComponent implements OnInit {
     constructor(private authService: AuthenticationService,
                 private router: Router) {
         //checking the status of the user. If he is logged in continue
-        authService.checkUserLoginStatus('user-profile');
+        authService.checkUserToken('user-profile');
     }
 
     ngOnInit() {
