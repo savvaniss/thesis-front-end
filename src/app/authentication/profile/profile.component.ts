@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {Data, Router} from "@angular/router";
 import {AuthenticationService} from "../authentication.service";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-profile',
@@ -8,13 +9,20 @@ import {AuthenticationService} from "../authentication.service";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
+    private userData;
   constructor(private router: Router,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private dataService: DataService) {
       authService.checkUserToken(null);
+      //this.userData = dataService.getData();
+      //console.log(this.userData);
+      //this.dataService.getFeed();
   }
+    //private imgSrc: string = this.userData.cover.source;
+
 
   ngOnInit() {
+
   }
 
 }
