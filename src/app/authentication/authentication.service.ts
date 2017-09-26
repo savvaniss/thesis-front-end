@@ -6,7 +6,7 @@ import 'rxjs/Rx'
 import {User} from "../models/user.model";
 import {FBuser} from "../models/FBuser.model";
 import {CoverObject} from "../models/cover.object";
-import {error} from "util";
+import {Router} from "@angular/router";
 
 declare const FB: any;
 
@@ -14,7 +14,8 @@ declare const FB: any;
 export class AuthenticationService {
     callsUrl: string = 'https://api-storage.herokuapp.com/api/user';
 
-    constructor(private http: Http) {
+    constructor(private http: Http,
+                private router: Router) {
     }
 
     public signUp(user, link: string) {
@@ -45,8 +46,11 @@ export class AuthenticationService {
         FB.getLoginStatus(function (response) {
             //----------------->SIGN IN
             if (response.status === "connected") {
+                console.log(response);
+                localStorage.setItem('accessToken' ,response.authResponse.accessToken);
                 //get the data of the user
-                FB.api('/me', 'get', {fields: "email,first_name,last_name,short_name,id,cover,link,verified"},
+                console.log('LOGGING IN');
+                FB.api('/me', 'get', {fields: "email,first_name,last_name,short_name,id,link,verified"},
                     function (resp) {
                         fbuser = new FBuser(resp.email,
                             resp.first_name,
@@ -56,9 +60,11 @@ export class AuthenticationService {
                             resp.verified,
                             resp.id,
                             'facebook',
-                            new CoverObject(resp.cover.id, resp.cover.offset_x, resp.cover.offset_y, resp.cover.source));
-                        console.log('LOGGING IN');
-                        onResponse(fbuser);
+                            new CoverObject(null,null,null,null));
+                        FB.api('/me/picture',function (response) {
+                           fbuser.cover.source = response.data.url;
+                           onResponse(fbuser);
+                        });
                     });
             } else {
                 //--------------->SIGN UP
@@ -88,6 +94,16 @@ export class AuthenticationService {
             }
         });
 
+    }
+
+    checkUserToken(path: string) {
+        if (localStorage.getItem('token')) {
+            if(path){
+                this.router.navigateByUrl(path);
+            }
+        } else {
+            this.router.navigateByUrl('sign-in');
+        }
     }
 
 }

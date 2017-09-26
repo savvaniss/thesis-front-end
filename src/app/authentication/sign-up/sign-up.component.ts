@@ -15,6 +15,7 @@ export class SignUpComponent implements OnInit {
 
     constructor(private authService: AuthenticationService,
                 private router: Router) {
+        //authService.checkUserToken('user-profile');
     }
 
     ngOnInit() {
@@ -44,16 +45,16 @@ export class SignUpComponent implements OnInit {
         console.log(user);
         this.authService.signUp(user, callsUrl)
             .subscribe(data => {
-                //here i save the token and the userId returned from the server
-                //to the local browser memory. This memory lasts for 2 hours
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('userId', data.userId);
-                this.router.navigateByUrl('/sign-in');
-            },
-            error => {
-                console.error(error)
-            }
-        );
+                    //here i save the token and the userId returned from the server
+                    //to the local browser memory. This memory lasts for 2 hours
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('id', data.id);
+                    this.router.navigateByUrl('/user-profile');
+                },
+                error => {
+                    console.error(error)
+                }
+            );
         //this.signUpForm.reset();
     }
 
@@ -63,8 +64,17 @@ export class SignUpComponent implements OnInit {
         const callsFBUrl = 'https://api-storage.herokuapp.com/api/user';
 
         this.authService.FBSignIn(function (response) {
+            //this is the callback function i send to the service to be called after producing the FBuser
+            //It would be better to develop it with promises. Thoough i dont understand them so well
             instance.authService.signUp(response, callsFBUrl)
-                .subscribe(data => console.log(data)
+                .subscribe(data => {
+                        console.log(data);
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('id', data.id);
+                        localStorage.setItem('loginType', 'facebook');
+
+                        instance.router.navigateByUrl('/user-profile');
+                    }
                     , error => console.error(error));
         });
     }
